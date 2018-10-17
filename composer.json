@@ -1,5 +1,5 @@
 {
-    "name": "mrlaozhou/indulge",
+    "name": "mrlaozhou/laravel-indulge",
     "description": "Laravel database field extension",
     "keywords": ["field", "laravel", "indulge", "mrlaozhou"],
     "require": {
