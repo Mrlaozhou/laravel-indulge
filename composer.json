@@ -1,0 +1,31 @@
+{
+    "name": "mrlaozhou/indulge",
+    "description": "Laravel database field extension",
+    "keywords": ["field", "laravel", "indulge", "mrlaozhou"],
+    "require": {
+        "php": ">= 7.0"
+    },
+    "authors": [
+        {
+            "name": "Mrlaozhou",
+            "email": "zgsself@163.com"
+        }
+    ],
+    "require-dev": {
+        "phpunit/phpunit": "~7.3",
+        "laravel/framework": "5.7.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Mrlaozhou\\Indulge\\": "src"
+        },
+        "files": [
+            "src/helpers.php"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    }
+}
