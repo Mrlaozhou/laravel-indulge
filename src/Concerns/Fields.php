@@ -34,6 +34,18 @@ trait Fields
     }
 
     /**
+     * 获取所有字段精简模式
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    public function getIndulgeSlimFields ()
+    {
+        return $this->getOriginFields()->merge(
+            $this->getExtensionFields()->pluck('name')
+        );
+    }
+
+    /**
      * 获取原本字段
      *
      * @return \Illuminate\Support\Collection
@@ -135,12 +147,12 @@ trait Fields
 
     /**
      * 扩展值填充
+     *
      * @param \Illuminate\Support\Collection      $attributesCollection
-     * @param \Illuminate\Database\Eloquent\Model $newModel
      *
      * @return \Illuminate\Support\Collection | array
      */
-    public function fillExtensionAttributes (Collection $attributesCollection, Model $newModel)
+    protected function fillExtensionAttributes (Collection $attributesCollection)
     {
         //  获取字段信息
         $extensionFields            =   $this->getExtensionFieldsByExtName(
@@ -149,10 +161,10 @@ trait Fields
         //  new attributes
         $filledAttributes           =   collect([]);
         //  填充
-        $attributesCollection->flatMap( function ($item, $key) use ($extensionFields ,$newModel, $filledAttributes) {
+        $attributesCollection->flatMap( function ($item, $key) use ($extensionFields , $filledAttributes) {
             $filledAttributes->push( [
-                'table'         =>  $newModel->getTable(),
-                'model_id'      =>  $newModel->getKey() ?? 0,   //  关联模型主键
+                'table'         =>  $this->getTable(),
+                'model_id'      =>  $this->getKey() ?? 0,   //  关联模型主键
                 'field_id'      =>  $extensionFields->get($key)->id,
                 'value'         =>  is_null( $item ) ? $extensionFields->get($key)->ext_default : $item
             ] );
