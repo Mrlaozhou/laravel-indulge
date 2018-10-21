@@ -16,7 +16,7 @@ The package will automatically register a service provider and alias.
 Optionally, publish the package's configuration file by running:
 
 ``` bash
-php artisan vendor:publish --provider="Mrlaozhou\laravel-indulge\LaravelIndulgeServiceProvider"
+php artisan vendor:publish --provider="Mrlaozhou\Indulge\LaravelIndulgeServiceProvider"
 
 php artisan indulge:migrate
 ```

@@ -23,7 +23,7 @@ class RollbackCommand extends Command
     public function handle ()
     {
         $this->call( 'migrate:rollback', [
-            '--path'        =>  realpath( config('indulge.migrate.path') ),
+            '--path'        =>  realpath(__DIR__ . '/../../database/migrations'),
             '--realpath'    =>  true,
         ] );
     }

@@ -8,6 +8,7 @@ class LaravelIndulgeServiceProvider extends ServiceProvider
 {
     public function boot ()
     {
+        $this->publishConfig();
         if( $this->app->runningInConsole() ) {
             //  注册命令
             $this->commands( [
@@ -15,11 +16,11 @@ class LaravelIndulgeServiceProvider extends ServiceProvider
                 Commands\RollbackCommand::class
             ] );
         }
-        $this->publishConfig();
     }
 
     public function register ()
     {
+        $this->mergeConfigFrom( __DIR__ . '/../config/indulge.php', 'indulge' );
     }
 
     /**
@@ -29,7 +30,7 @@ class LaravelIndulgeServiceProvider extends ServiceProvider
     {
         $this->publishes( [
             __DIR__ . '/../config/indulge.php'  =>  config_path( 'indulge.php' )
-        ] );
+        ], 'config' );
     }
     
     protected function registerMigrations ()

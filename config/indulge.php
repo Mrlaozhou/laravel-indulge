@@ -30,8 +30,4 @@ return [
         
         'model_field'       =>  'model_id',
     ],
-
-    'migrate'                   =>  [
-        'path'              =>  __DIR__ . '/../database/migrations'
-    ],
 ];

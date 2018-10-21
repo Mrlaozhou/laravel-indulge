@@ -30,7 +30,7 @@ class MigrateCommand extends Command
     public function handle()
     {
         $this->call('migrate', [
-            '--path' => realpath(config('indulge.migrate.path')),
+            '--path' => realpath(__DIR__ . '/../../database/migrations'),
             '--realpath' => true
         ]);
     }
