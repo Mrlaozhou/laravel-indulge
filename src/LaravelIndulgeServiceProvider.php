@@ -16,8 +16,6 @@ class LaravelIndulgeServiceProvider extends ServiceProvider
             ] );
         }
         $this->publishConfig();
-        
-        $this->mergeConfigFrom( __DIR__ . '/../config/indulge.php', 'indulge' );
     }
 
     public function register ()
