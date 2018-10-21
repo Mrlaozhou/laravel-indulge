@@ -19,7 +19,7 @@ class IndulgeFields extends Migration
             $table->string('table', 30)->default('')->comment('字段所属的表名');
             $table->string('name', 30)->default('')->comment('字段名称');
             $table->string('label', 30)->default('')->comment('字段Label');
-            $table->integer('type')->unsigned()->default(0)->comment('字段类型');
+            $table->string('type', 30)->default('')->comment('字段类型');
             $table->string('form_type', 30)->default('')->comment('表单类型');
             $table->integer('option_id')->unsigned()->default(0)->comment('选项值父ID');
             $table->string('require')->default('')->comment('验证规则');

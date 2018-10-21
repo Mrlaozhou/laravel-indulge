@@ -9,7 +9,11 @@ class LaravelIndulgeServiceProvider extends ServiceProvider
     public function boot ()
     {
         if( $this->app->runningInConsole() ) {
-            $this->registerMigrations();
+            //  注册命令
+            $this->commands( [
+                Commands\MigrateCommand::class,
+                Commands\RollbackCommand::class
+            ] );
         }
         $this->publishConfig();
         

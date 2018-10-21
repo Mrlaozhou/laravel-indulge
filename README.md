@@ -17,6 +17,8 @@ Optionally, publish the package's configuration file by running:
 
 ``` bash
 php artisan vendor:publish --provider="Mrlaozhou\laravel-indulge\LaravelIndulgeServiceProvider"
+
+php artisan indulge:migrate
 ```
 
 ## Document
@@ -46,17 +48,5 @@ class Leads extends Model
 }
 ```
 
-#### Create a new data
-
-```bash
-(new Leads())->indulgeCreate();
-```
-
-| 		Action		 |      Data Model      |      Instance Model      |    
-|:-------:|:-------------:| :----------:|
-|  create  |     `$leads->indulgeCreate($attributes)`    |   ~   |
-|  update  |     `$leads->indulgeUpdate($attributes)`    |   `$leads->newQuery()->find($id)->indulgeUpdate($attributes)`   |
-|  select  |     `$leads->indulgeList()->where()->get()`   |   ~   |
-|  delete  |     `$leads->indulgeDelete()`    |   ~   |
-|  destroy |     `$leads->indulgeCreate($attributes)`    |   ~   |
-|  find    |     `$leads->indulgeFind()`    |   `$leads->indulgeFind($id, $columns)`   |
+-----
+Seamless expansion .

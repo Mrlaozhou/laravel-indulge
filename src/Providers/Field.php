@@ -10,6 +10,10 @@ class Field extends Model
     use SoftDeletes;
     
     protected $table            =   'indulge_fields';
+
+    protected $guarded          =   [
+        'deleted_at'
+    ];
     
     protected $dates            =   ['deleted_at'];
 }

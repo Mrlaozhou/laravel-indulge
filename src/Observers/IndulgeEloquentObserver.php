@@ -26,22 +26,42 @@ class IndulgeEloquentObserver
 
     /**
      * @param \Illuminate\Database\Eloquent\Model|\Mrlaozhou\Indulge\Indulge $model
-     *
-     * @return bool
      */
     public function created(Model $model)
     {
-        //  获取扩展数据
-        $extensionAttributes            =   $model->getShortRent('createExtensionAttributes');
-        //  存储扩展字段
-        $model->indulgeValuesCreate( $extensionAttributes );
-        //
-        $model->setRawAttributes( $extensionAttributes->merge( $model->toArray() )->toArray() );
+        if( ($extensionAttributes = $model->getShortRent('createExtensionAttributes'))->isNotEmpty() ) {
+            //  存储扩展字段
+            $model->indulgeValuesCreate( $extensionAttributes );
+            //
+            $model->setRawAttributes( $extensionAttributes->merge( $model->toArray() )->toArray() );
+        }
     }
 
-    public function updating() {}
+    /**
+     * @param \Illuminate\Database\Eloquent\Model|\Mrlaozhou\Indulge\Indulge $model
+     *
+     * @return bool
+     */
+    public function updating(Model $model)
+    {
+        //  分离属性
+        list( $extensionAttributes, $originAttributes )     =   $model->splitMixedAttributes( $model->getAttributes() );
+        //  模型属性重置
+        $model->setRawAttributes( $originAttributes->toArray() );
+        $model->setShortRent( 'updateExtensionAttributes', $extensionAttributes );
+        return true;
+    }
 
-    public function updated() {}
+    /**
+     * @param \Illuminate\Database\Eloquent\Model|\Mrlaozhou\Indulge\Indulge $model
+     */
+    public function updated(Model $model)
+    {
+        if( ($extensionAttributes = $model->getShortRent('updateExtensionAttributes'))->isNotEmpty() ) {
+            $model->indulgeValuesUpdate( $extensionAttributes, $model );
+            $model->setRawAttributes( $model->indulgeValuesFinds()->toArray() );
+        }
+    }
 
     public function saving() {}
 
@@ -51,10 +71,21 @@ class IndulgeEloquentObserver
 
     public function restored() {}
 
-    public function deleting() {}
+    /**
+     * @param \Illuminate\Database\Eloquent\Model $model
+     *
+     * @return bool
+     */
+    public function deleting(Model $model) {}
 
     public function deleted() {}
 
-    public function forceDeleted() {}
+    /**
+     * @param \Illuminate\Database\Eloquent\Model|\Mrlaozhou\Indulge\Indulge $model
+     */
+    public function forceDeleted(Model $model)
+    {
+        $model->indulgeModelValueRelation()->delete();
+    }
 
 }

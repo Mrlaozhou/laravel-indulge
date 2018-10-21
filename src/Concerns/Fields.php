@@ -6,6 +6,7 @@ use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Schema;
+use Mrlaozhou\Indulge\Requests\FieldsCreateRequest;
 
 trait Fields
 {
@@ -152,12 +153,31 @@ trait Fields
      *
      * @return \Illuminate\Support\Collection | array
      */
-    protected function fillExtensionAttributes (Collection $attributesCollection)
+    public function fillExtensionAttributes (Collection $attributesCollection)
     {
         //  获取字段信息
         $extensionFields            =   $this->getExtensionFieldsByExtName(
             $attributesCollection->keys()
         );
+        //  new attributes
+        $filledAttributes           =   collect([]);
+        //  填充
+        $attributesCollection->flatMap( function ($item, $key) use ($extensionFields , $filledAttributes) {
+            $filledAttributes->push( [
+                'table'         =>  $this->getTable(),
+                'model_id'      =>  $this->getKey() ?? 0,   //  关联模型主键
+                'field_id'      =>  $extensionFields->get($key)->id,
+                'value'         =>  is_null( $item ) ? $extensionFields->get($key)->ext_default : $item
+            ] );
+        } );
+        return $filledAttributes;
+    }
+
+    /**
+     * 手动填充扩展值
+     */
+    public function manualFillExtensionAttributes (Collection $extensionFields, Collection $attributesCollection)
+    {
         //  new attributes
         $filledAttributes           =   collect([]);
         //  填充
@@ -182,10 +202,10 @@ trait Fields
     {
         if( $extensionsCollection->isEmpty() )return collect([]);
         //  获取扩展字段
-        $extenisonFields            =   $this->getExtensionFields()->pluck('name', 'id');
+        $extensionFields            =   $this->getExtensionFields()->pluck('name', 'id');
         //  携带字段名
-        $extensionsCollection->flatMap(function ($item) use($extenisonFields){
-            $item->field_name       =   $extenisonFields->get( $item->field_id );
+        $extensionsCollection->flatMap(function ($item) use($extensionFields){
+            $item->field_name       =   $extensionFields->get( $item->field_id );
             return $item;
         } );
         //  键值对
@@ -200,5 +220,16 @@ trait Fields
     public function getOptionFieldTypes ()
     {
         return $this->indulgeOptionFields;
+    }
+
+    /**
+     * @param array $attributes
+     *  创建扩展字段
+     * @return mixed
+     */
+    public function indulgeCreateField (array $attributes)
+    {
+        $attributes['table']        =   $this->getTable();
+        return $this->fieldProvider()::create($attributes);
     }
 }
