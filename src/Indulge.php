@@ -3,6 +3,7 @@
 namespace Mrlaozhou\Indulge;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
@@ -82,7 +83,7 @@ trait Indulge
      */
     public function setShortRent($target,$attributes)
     {
-        return $this->indulgeShortRent[$target]     =   $attributes;
+        return Arr::set( $this->indulgeShortRent, $target, $attributes );
     }
 
     /**
@@ -92,7 +93,10 @@ trait Indulge
      */
     public function getShortRent($target)
     {
-        return $this->indulgeShortRent[$target] ?? null;
+        if( Arr::exists( $this->indulgeShortRent, $target ) ) {
+            return Arr::pull( $this->indulgeShortRent, $target );
+        }
+        return collect([]);
     }
 
     /**

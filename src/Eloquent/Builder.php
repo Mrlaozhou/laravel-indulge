@@ -39,4 +39,5 @@ class Builder extends \Illuminate\Database\Eloquent\Builder
 
         return parent::get($columns);
     }
+
 }
