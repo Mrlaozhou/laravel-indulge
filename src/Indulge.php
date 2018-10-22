@@ -22,7 +22,8 @@ trait Indulge
     use Concerns\Instance, 
         Concerns\Fields,
         Concerns\TableName,
-        Concerns\Relations;
+        Concerns\Relations,
+        Concerns\Options;
 
     protected static $indulged     =   false;
 

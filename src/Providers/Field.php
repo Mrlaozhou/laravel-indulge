@@ -16,4 +16,12 @@ class Field extends Model
     ];
     
     protected $dates            =   ['deleted_at'];
+
+    public function options ()
+    {
+        if( ! $this->option_id ) {
+            return null;
+        }
+        return $this->hasMany( Option::class, 'id', 'option_id' )->get();
+    }
 }

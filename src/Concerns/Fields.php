@@ -6,7 +6,10 @@ use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Validator;
+use Mrlaozhou\Indulge\Exceptions\IndulgeException;
 use Mrlaozhou\Indulge\Requests\FieldsCreateRequest;
+use Mrlaozhou\Indulge\Requests\FieldsUpdateRequest;
 
 trait Fields
 {
@@ -223,13 +226,59 @@ trait Fields
     }
 
     /**
-     * @param array $attributes
-     *  创建扩展字段
+     * @param array      $attributes
+     * @param array|null $rules
+     *
+     * @return mixed
+     * @throws \Mrlaozhou\Indulge\Exceptions\IndulgeException
+     */
+    public function createIndulgeField (array $attributes,array $rules = null)
+    {
+        //  添加table字段
+        $attributes['table']        =   $this->getTable();
+        //  构造验证
+        $rules                      =   $rules ?:  (new FieldsCreateRequest())->rules();
+        $validator                  =   Validator::make( $attributes, $rules );
+
+        if( $validator->fails() ) {
+            throw new IndulgeException( $validator->errors() );
+        }
+
+        return $this->fieldProvider()::create($attributes);
+    }
+
+    /**
+     * @param $id
+     *
      * @return mixed
      */
-    public function indulgeCreateField (array $attributes)
+    public function deleteIndulgeField ($id)
     {
-        $attributes['table']        =   $this->getTable();
-        return $this->fieldProvider()::create($attributes);
+        return $this->fieldProvider()::query()->where('table', $this->getTable())
+            ->where('id', $id)->delete();
+    }
+
+
+    /**
+     * @param            $id
+     * @param array      $attributes
+     * @param array|null $rules
+     *
+     * @return mixed
+     * @throws \Mrlaozhou\Indulge\Exceptions\IndulgeException
+     */
+    public function updateIndulgeField ($id, array $attributes, array $rules=null)
+    {
+        $fieldPrimaryKey            =   $id ?: $attributes['id'];
+        //  构造验证
+        $rules                      =   $rules ?:  (new FieldsUpdateRequest())->rules();
+        $validator                  =   Validator::make( $attributes, $rules );
+
+        if( $validator->fails() ) {
+            throw new IndulgeException( $validator->errors() );
+        }
+        return $this->fieldProvider()::query()->where('table', $this->getTable())
+                                              ->where('id', $fieldPrimaryKey)
+                                              ->update($attributes);
     }
 }
