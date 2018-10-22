@@ -13,7 +13,7 @@ class FieldsUpdateRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -30,7 +30,7 @@ class FieldsUpdateRequest extends FormRequest
             'label'         =>  'bail|max:30',
             'type'          =>  'bail|alpha|max:30',
             'form_type'     =>  'bail|required|alpha|max:30',
-            'option_id'     =>  'bail|number',
+            'option_id'     =>  'bail|integer',
             'require'       =>  'bail|max:60',
             'showable'      =>  'bail|between:0,1',
             'writeable'     =>  'bail|between:0,1',

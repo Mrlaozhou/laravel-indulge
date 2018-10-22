@@ -236,13 +236,13 @@ trait Fields
     {
         //  添加table字段
         $attributes['table']        =   $this->getTable();
-        //  构造验证
-        $rules                      =   $rules ?:  (new FieldsCreateRequest())->rules();
-        $validator                  =   Validator::make( $attributes, $rules );
-
-        if( $validator->fails() ) {
-            throw new IndulgeException( $validator->errors() );
-        }
+//        //  构造验证
+//        $rules                      =   $rules ?:  (new FieldsCreateRequest())->rules();
+//        $validator                  =   Validator::make( $attributes, $rules );
+//
+//        if( $validator->fails() ) {
+//            throw new IndulgeException( $validator->errors() );
+//        }
 
         return $this->fieldProvider()::create($attributes);
     }
@@ -270,13 +270,13 @@ trait Fields
     public function updateIndulgeField ($id, array $attributes, array $rules=null)
     {
         $fieldPrimaryKey            =   $id ?: $attributes['id'];
-        //  构造验证
-        $rules                      =   $rules ?:  (new FieldsUpdateRequest())->rules();
-        $validator                  =   Validator::make( $attributes, $rules );
-
-        if( $validator->fails() ) {
-            throw new IndulgeException( $validator->errors() );
-        }
+//        //  构造验证
+//        $rules                      =   $rules ?:  (new FieldsUpdateRequest())->rules();
+//        $validator                  =   Validator::make( $attributes, $rules );
+//
+//        if( $validator->fails() ) {
+//            throw new IndulgeException( $validator->errors() );
+//        }
         return $this->fieldProvider()::query()->where('table', $this->getTable())
                                               ->where('id', $fieldPrimaryKey)
                                               ->update($attributes);
