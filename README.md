@@ -1,8 +1,4 @@
 # Laravel-Indulge
-<p align="center">
-<a href="http://blog.52laozhou.com"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-</p>
-
 
 ## Install
 To install through Composer, by run the following command:
@@ -24,11 +20,38 @@ php artisan indulge:migrate
 ## Document
 
 ### Config
+#####You can modify the provider at will.
 
+Filepath: config/indulge.php
+
+```php
+return [
+    'providers'                 =>  [
+        /**
+         *
+         * Indulge option provider
+         */
+        'option'            =>  \Mrlaozhou\Indulge\Entities\Option::class,
+
+        /**
+         *
+         * Indulge field provider
+         */
+        'field'             =>  \Mrlaozhou\Indulge\Entities\Field::class,
+
+        /**
+         *
+         * Indulge value provider
+         */
+        'value'             =>  \Mrlaozhou\Indulge\Entities\Value::class
+    ],
+];
+```
 
 
 ### Using
 
+#### Model
 Use trait "\mrlaozhou\laravel-indulge\Indulge" in you (Eloquent)Model.
 
 ep: 
@@ -50,3 +73,15 @@ class Leads extends Model
 
 -----
 Seamless expansion .
+
+#### Facade
+
+```angular2html
+IndulgeOption::trees($pid);	// recursion
+
+IndulgeOption::lists($pid); // recursion
+
+IndulgeOption::roots(); // pid === 0
+
+IndulgeOption::child($pid); // sub
+```
