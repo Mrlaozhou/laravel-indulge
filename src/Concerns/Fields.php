@@ -9,6 +9,12 @@ use Illuminate\Support\Facades\Schema;
 
 trait Fields
 {
+
+    /**
+     * @var array
+     */
+    private static $indulgeFieldsCache  =   [];
+
     public function fetchMixedFields ()
     {
 
@@ -19,8 +25,14 @@ trait Fields
      */
     public function fetchExtensionFields ()
     {
-        return $this->indulgeFieldProvider()->newQuery()
-            ->where('table', $this->getTable())->get();
+        if( ! Arr::exists( static::$indulgeFieldsCache, 'extension' ) ) {
+            Arr::set(
+                static::$indulgeFieldsCache,
+                'extension' ,
+                $this->indulgeFieldProvider()->newQuery()->where('table', $this->getTable())->get()
+            );
+        }
+        return Arr::get( static::$indulgeFieldsCache, 'extension' );
     }
 
     /**
@@ -28,8 +40,14 @@ trait Fields
      */
     public function fetchExtensionFieldsWithOptions ()
     {
-        return $this->indulgeFieldProvider()->newQuery()->with('options')
-                    ->where('table', $this->getTable())->get();
+        if( ! Arr::exists( static::$indulgeFieldsCache, 'extensionWithOption' ) ) {
+            Arr::set(
+                static::$indulgeFieldsCache,
+                'extensionWithOption' ,
+                $this->indulgeFieldProvider()->newQuery()->with('options')->where('table', $this->getTable())->get()
+            );
+        }
+        return Arr::get( static::$indulgeFieldsCache, 'extensionWithOption' );
     }
 
     /**

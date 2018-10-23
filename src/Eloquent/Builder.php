@@ -32,6 +32,8 @@ class Builder extends \Illuminate\Database\Eloquent\Builder
 
             //  遍历处理
             return  $untreatedCollection->map(function(Model $model) use($extensionFields){
+                $extensionValues        =   $this->model->extensionValuesToKV( $model->indulgeValues, $extensionFields );
+                if( $extensionValues->isEmpty() ) return $model;
                 return $model->setRawAttributes(
                     $this->model->extensionValuesToKV( $model->indulgeValues, $extensionFields )
                                 ->merge( $model->getAttributes() )->toArray()
