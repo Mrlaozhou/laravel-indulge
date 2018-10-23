@@ -20,7 +20,8 @@ php artisan indulge:migrate
 ## Document
 
 ### Config
-#####You can modify the provider at will.
+
+You can modify the provider at will.
 
 Filepath: config/indulge.php
 
