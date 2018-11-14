@@ -17,10 +17,10 @@ class Collection extends BaseCollection
     public function toTrees ($pid=0, $selfKey='id', $pidKey='pid')
     {
         $trees          =   [];
-        foreach ( $this->items as $item ) {
+        foreach ( $this->items as $key => $item ) {
             if( $item[$pidKey] == $pid ) {
                 $item['children']     =   $this->toTrees( $item[$selfKey] );
-                $this->forget( $item[$selfKey] );
+                $this->offsetUnset( (string)$this->items[$key] );
                 Arr::set( $trees, $item[$selfKey], $item );
             }
         }
