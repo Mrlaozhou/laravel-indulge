@@ -61,6 +61,6 @@ trait Values
 
     public function indulgeValues ()
     {
-        return $this->hasMany( Value::class, 'model_id' )->where('table', $this->getTable());
+        return $this->hasMany( $this->indulgeValueProvider(false), 'model_id' )->where('table', $this->getTable());
     }
 }
