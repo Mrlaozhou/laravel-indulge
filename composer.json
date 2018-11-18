@@ -3,7 +3,8 @@
     "description": "Laravel database field extension",
     "keywords": ["field", "laravel", "indulge", "mrlaozhou", "extension"],
     "require": {
-        "php": ">= 7.0"
+        "php": ">= 7.0",
+        "Mrlaozhou/laravel-extend": "^1.1"
     },
     "authors": [
         {

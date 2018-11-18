@@ -44,7 +44,7 @@ class Option extends Model implements OptionInterface
     /**
      * @param int $pid
      *
-     * @return \Mrlaozhou\Indulge\Collection
+     * @return \Mrlaozhou\Extend\Collection
      */
     public function lists($pid = 0)
     {
@@ -52,7 +52,7 @@ class Option extends Model implements OptionInterface
     }
 
     /**
-     * @return \Mrlaozhou\Indulge\Collection
+     * @return \Mrlaozhou\Extend\Collection
      */
     public function roots()
     {
@@ -62,7 +62,7 @@ class Option extends Model implements OptionInterface
     /**
      * @param int $pid
      *
-     * @return \Mrlaozhou\Indulge\Collection
+     * @return \Mrlaozhou\Extend\Collection
      */
     public function child($pid = 0)
     {
@@ -70,13 +70,13 @@ class Option extends Model implements OptionInterface
     }
 
     /**
-     * @return \Mrlaozhou\Indulge\Collection
+     * @return \Mrlaozhou\Extend\Collection
      */
     private static function originCollection ()
     {
         if( static::$indulgeOriginCache )
-            return new \Mrlaozhou\Indulge\Collection( static::$indulgeOriginCache );
-        return new \Mrlaozhou\Indulge\Collection(
+            return new \Mrlaozhou\Extend\Collection( static::$indulgeOriginCache );
+        return new \Mrlaozhou\Extend\Collection(
             static::$indulgeOriginCache = (new static())->newQuery()->get()->toArray()
         );
     }

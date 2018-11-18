@@ -14,7 +14,7 @@ class Field extends Model
     protected $dates            =   ['deleted_at'];
 
     protected $guarded          =   [
-        'table', 'deleted_at'
+        'deleted_at'
     ];
 
     public function options ()
