@@ -19,6 +19,6 @@ class Field extends Model
 
     public function options ()
     {
-        return $this->hasMany( Option::class, 'pid', 'option_id' );
+        return $this->hasMany( config('indulge.providers.option'), 'pid', 'option_id' );
     }
 }
